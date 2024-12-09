@@ -10,7 +10,7 @@ import useAxios from "../Utils/axiosInstance";
 function DetailReservation() {
   const location = useLocation();
   const { productId } = location.state || undefined;
-  const urlAPI = "http://localhost:8080";
+  const baseUrl= import.meta.env.VITE_API_BASE_URL
   const axios = useAxios();
   const [product, setProduct] = useState(null);
   const [reservation, setReservation] = useState(null);
@@ -21,13 +21,13 @@ function DetailReservation() {
     const fetchProductDetail = async () => {
       try {
         const responseReservation = await axios.get(
-          urlAPI + `/api/v1/reservations/${productId}`
+          baseUrl + `/api/v1/reservations/${productId}`
         );
         const dataReservation = await responseReservation.data;
         setReservation(dataReservation);
 
         const responseImages = await fetch(
-          urlAPI + `/api/v1/products/by-name/${dataReservation.productName}`
+          baseUrl + `/api/v1/products/by-name/${dataReservation.productName}`
         );
         const data = await responseImages.json();
         setProduct(data);
@@ -55,14 +55,14 @@ function DetailReservation() {
       <div className={styleReservation.content}>
         {/* Imagen principal */}
         <img
-          src={urlAPI + mainImage}
+          src={baseUrl + mainImage}
           alt={product.name}
           className={styles.productImage}
           onError={(e) => {
-            const fallback1 = `${urlAPI}/${mainImage}`;
-            const fallback2 = `${urlAPI}/public${mainImage}`;
+            const fallback1 = `${baseUrl}/${mainImage}`;
+            const fallback2 = `${baseUrl}/public${mainImage}`;
             const fallback3 = "placeholder.svg";
-            if (e.target.src === `${urlAPI}${mainImage}`) {
+            if (e.target.src === `${baseUrl}${mainImage}`) {
               e.target.src = fallback1;
             } else if (e.target.src === fallback1) {
               e.target.src = fallback2;
@@ -78,15 +78,15 @@ function DetailReservation() {
           {product.images.map((img, index) => (
             <img
               key={index}
-              src={urlAPI + img.url}
+              src={baseUrl + img.url}
               alt={`${product.name} thumbnail ${index + 1}`}
               className={styles.thumbnail}
               onClick={() => setMainImage(img.url)}
               onError={(e) => {
-                const fallback1 = `${urlAPI}/${img.url}`;
-                const fallback2 = `${urlAPI}/public${img.url}`;
+                const fallback1 = `${baseUrl}/${img.url}`;
+                const fallback2 = `${baseUrl}/public${img.url}`;
                 const fallback3 = "placeholder.svg";
-                if (e.target.src === `${urlAPI}${img.url}`) {
+                if (e.target.src === `${baseUrl}${img.url}`) {
                   e.target.src = fallback1;
                 } else if (e.target.src === fallback1) {
                   e.target.src = fallback2;

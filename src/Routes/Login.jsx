@@ -1,11 +1,12 @@
 import { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import loginStyles from "../styles/Login.module.css";
 import logo from '../Images/Logo.png';
 import Button from "../components/Button";
 import Input from "../components/Input";
 import Modal from "../components/Modal";
 import AuthContext from "../context/AuthContext";
+import Swal from "sweetalert2";
 
 function Login() {
   const { loginUser } = useContext(AuthContext);
@@ -20,6 +21,8 @@ function Login() {
     img: ""
   });
   const navigate = useNavigate();
+  const location = useLocation();
+  const baseUrl=import.meta.env.VITE_API_BASE_URL;
 
   // eslint-disable-next-line no-useless-escape
   const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
@@ -54,16 +57,22 @@ function Login() {
 
     if (formIsValid) {
       try {
-        const response = await fetch("http://localhost:8080/auth/login", {
+        const response = await fetch(`${baseUrl}/auth/login`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password }),
         });
         const data = await response.json();
-
+        
+        const previousPage = location.state?.from || document.referrer;
         if (response.ok) {
           loginUser(data);
-          navigate(-1);
+          const previousPage = location.state?.from || document.referrer; // Obtener página anterior
+          if(previousPage?.includes("/register")){
+            navigate("/")
+          }else{
+            navigate(-1);
+          }
         } else if (response.status === 404) {
           setError({ email: "No encontramos una cuenta asociada a este correo electrónico." });
         } else if (response.status === 401) {
@@ -72,11 +81,17 @@ function Login() {
           setError({ general: " El correo o contraseña ingresados es incorrecto. Vuelve a intentarlo." });
         }
       } catch (error) {
-        setModalInfo({
-          show: true,
-          mensaje: "Por favor, verifica tu conexión a Internet e intenta nuevamente.",
-          img: "./ohNo.png"
-        });
+        Swal.fire({
+          title: '¡No se puede iniciar sesión!',
+          text: 'Hubo un problema con el inicio de sesión. Por favor, vuelve a intentarlo más tarde.',
+          iconHtml: '<img src="ohNo2.png" style="width: 253px;"/>',
+          customClass: {
+            icon: loginStyles.noBorder,
+            confirmButton: loginStyles.confirmButton,
+          },
+          buttonsStyling: false,
+          confirmButtonText: 'Aceptar'
+        })
         console.error("Error al iniciar sesión:", error);
       }
     }
@@ -92,7 +107,7 @@ function Login() {
         <div className={loginStyles.loginContainer}>
           <h2>Iniciar Sesión</h2>
           <form onSubmit={handleLogin} noValidate>
-            <label>
+            <label style={{textAlign: 'left'}}>
               Correo electrónico
               <Input
                 placeholder="Por favor, ingresa tu correo electrónico."
@@ -106,7 +121,7 @@ function Login() {
             </label>
 
 
-            <label>
+            <label style={{textAlign: 'left'}}>
               Contraseña
               <Input
                 placeholder="Por favor, ingresa tu contraseña."

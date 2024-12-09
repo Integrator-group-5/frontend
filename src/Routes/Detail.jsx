@@ -27,6 +27,7 @@ const Detail = () => {
   const {user}=useContext(AuthContext);
 
   const navigate = useNavigate();
+  const baseUrl=import.meta.env.VITE_API_BASE_URL;
 
   document.addEventListener('scroll', () => { if (window.screen.width > 500) { setIsOpen(false); setStartDateToggle(false); } });
 
@@ -36,14 +37,14 @@ const Detail = () => {
     const fetchProductDetail = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8080/api/v1/products/${id}`
+          `${baseUrl}/api/v1/products/${id}`
         );
         const data = await response.json();
         console.log(data);
         setProduct(data);
         setMainImage(data.images[0]?.url ?? "placeholder.svg"); // Establece la primera imagen como principal
         const response2 = await fetch(
-          `http://localhost:8080/api/v1/products/${id}/availability`
+          `${baseUrl}/api/v1/products/${id}/availability`
         );
         const data2 = await response2.json();
         setClosedDates(data2.unavailableDates.map((date) => {
@@ -113,14 +114,14 @@ const Detail = () => {
       <div className={styles.content}>
         {/* Imagen principal */}
         <img
-          src={`http://localhost:8080${mainImage}`}
+          src={`${baseUrl}${mainImage}`}
           alt={product.name}
           className={styles.productImage}
           onError={(e) => {
-            const fallback1 = `http://localhost:8080/${mainImage}`; // First fallback image
-            const fallback2 = `http://localhost:8080/public${mainImage}`; // Second fallback image
+            const fallback1 = `${baseUrl}/${mainImage}`; // First fallback image
+            const fallback2 = `${baseUrl}/public${mainImage}`; // Second fallback image
             const fallback3 = "placeholder.svg"; // Third fallback image
-            if (e.target.src === `http://localhost:8080${mainImage}`) {
+            if (e.target.src === `${baseUrl}${mainImage}`) {
               e.target.src = fallback1; // Switch to the first fallback
             } else if (e.target.src === fallback1) {
               e.target.src = fallback2; // Switch to the second fallback
@@ -136,15 +137,15 @@ const Detail = () => {
           {product.images.map((img, index) => (
             <img
               key={index}
-              src={`http://localhost:8080${img.url}`}
+              src={`${baseUrl}${img.url}`}
               alt={`${product.name} thumbnail ${index + 1}`}
               className={styles.thumbnail}
               onClick={() => setMainImage(img.url)} // Cambia la imagen principal
               onError={(e) => {
-                const fallback1 = `http://localhost:8080/${img.url}`; // First fallback image
-                const fallback2 = `http://localhost:8080/public${img.url}`; // Second fallback image
+                const fallback1 = `${baseUrl}/${img.url}`; // First fallback image
+                const fallback2 = `${baseUrl}/public${img.url}`; // Second fallback image
                 const fallback3 = "placeholder.svg"; // Third fallback image
-                if (e.target.src === `http://localhost:8080${img.url}`) {
+                if (e.target.src === `${baseUrl}${img.url}`) {
                   e.target.src = fallback1; // Switch to the first fallback
                 } else if (e.target.src === fallback1) {
                   e.target.src = fallback2; // Switch to the second fallback

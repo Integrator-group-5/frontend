@@ -18,6 +18,7 @@ const ProductTable = ({ pageSize = 6, reload, setReload }) => {
   const [numElements, setNumElements] = useState(0);
   const { categoryName } = useParams(); // Get categoryName from URL
   const axios = axiosInstance();
+  const baseUrl=import.meta.env.VITE_API_BASE_URL
   
   // Fetch de los productos paginados
   useEffect(() => {
@@ -67,7 +68,7 @@ const ProductTable = ({ pageSize = 6, reload, setReload }) => {
   const handleEditClick = async (id) => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/v1/products/${id}`
+        `/api/v1/products/${id}`
       );
       const productData = response.data;
       dispatch({type:"GET_ID",id})
@@ -108,7 +109,7 @@ const ProductTable = ({ pageSize = 6, reload, setReload }) => {
   const confirmDelete = async () => {
     try {
       await axios.delete(
-        `http://localhost:8080/api/v1/products/delete-product/${state.selectedId}`
+        `/api/v1/products/delete-product/${state.selectedId}`
       );
       dispatch({type:"DELETE_PRODUCT", payload: state.selectedId}) //eliminar el producto de la lista
       dispatch({type:"HIDDEN_MODAL"}) // se cierra el modal
@@ -168,16 +169,16 @@ const ProductTable = ({ pageSize = 6, reload, setReload }) => {
             <div className={styles.containerImage}>
               <img
                 className={styles.prodImage}
-                src={`http://localhost:8080${product.images[0].url}`}
+                src={`${baseUrl}${product.images[0].url}`}
                 alt={product.name}
                 onError={(e) => {
-                  const fallback1 = `http://localhost:8080/${product.images[0].url}`; // First fallback image
-                  const fallback2 = `http://localhost:8080/public${product.images[0].url}`; // Second fallback image
+                  const fallback1 = `${baseUrl}/${product.images[0].url}`; // First fallback image
+                  const fallback2 = `${baseUrl}/public${product.images[0].url}`; // Second fallback image
                   const fallback3 = "placeholder.svg"; // Third fallback image
 
                   if (
                     e.target.src ===
-                    `http://localhost:8080${product.images[0].url}`
+                    `${baseUrl}${product.images[0].url}`
                   ) {
                     e.target.src = fallback1; // Switch to the first fallback
                   } else if (e.target.src === fallback1) {

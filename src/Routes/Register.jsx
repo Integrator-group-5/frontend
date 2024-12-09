@@ -32,8 +32,9 @@ const Register = () => {
   const navigate = useNavigate();
   // eslint-disable-next-line no-useless-escape
   const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-  const noNumbersRegex = /^[a-zA-Z\s]+$/;
-  const url = "http://localhost:8080/auth/register";
+  const noNumbersRegex = /^[^\d]*$/;
+  const baseUrl=import.meta.env.VITE_API_BASE_URL;
+  const url = `${baseUrl}/auth/register`;
 
   const handleNombre = (e) => {
     setUser({ ...user, nombre: e.target.value });
@@ -189,6 +190,9 @@ const Register = () => {
       console.error("Error al realizar el registro:", err);
     }
   }
+  const handleLogin=()=>{
+    navigate("/login", {state:{from:"/register"}})
+  }
 
   return (
     <div className={StyleRegistro.container}>
@@ -209,7 +213,7 @@ const Register = () => {
             onClose={() => {
               setModalInfo({ ...modalInfo, show: false });
               if (modalInfo.titulo === "¡Felicidades!") {
-                navigate("/login");
+                navigate("/login", { state: { from: "/register" } });
               }
             }}
           />
@@ -268,7 +272,7 @@ const Register = () => {
                 error={error.contraseñaRepetida}
               />
               <Button>Registrar</Button>
-              <p className={StyleRegistro.cuenta}>¿Ya tienes una cuenta? <Link className={StyleRegistro.link} to="/login" ><strong>Inicia sesión aquí</strong></Link></p>
+              <p className={StyleRegistro.cuenta}>¿Ya tienes una cuenta? <strong className={StyleRegistro.link} onClick={handleLogin}>Inicia sesión aquí</strong></p>
             </form>
           </div>
         )}

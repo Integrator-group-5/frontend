@@ -15,13 +15,16 @@ const ModalGlobal = () => {
       if(state.modalData.onClose){
         state.modalData.onClose();
         dispatch({type: "HIDE_MODAL_GLOBAL"});
-      }else if(state.modalData.onClose){
-        state.modalData.onClose2();
-        dispatch({type: "HIDE_MODAL_GLOBAL"});
       }
       else{
         dispatch({type: "HIDE_MODAL_GLOBAL"})
       }   
+    }
+    const handleClose2=()=>{
+      if(state.modalData.onClose){
+        state.modalData.onClose2();
+        dispatch({type: "HIDE_MODAL_GLOBAL"});
+      }
     }
     
   return (
@@ -32,7 +35,7 @@ const ModalGlobal = () => {
         subtitulo={state.modalData.subtitulo}
         mensaje={state.modalData.mensaje}
         onClose={handleClose}
-        onClose2={handleClose}
+        onClose2={handleClose2}
         boton2={state.modalData.mensaje2}
         label={state.modalData.label}
         />

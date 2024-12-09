@@ -1,11 +1,20 @@
 .productListContainer {
     max-width: 3000px; /* Max width for the container */
     margin: 0 auto;
-    margin-top: 100px;
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.productListContainer2 {
+    max-width: 3000px; /* Max width for the container */
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 100px;
 }
 
 h1 {
@@ -51,6 +60,7 @@ h3 {
     /* Grid layout for responsive rows */
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     padding: 0 20px 20px;
+    margin-top: 25px;
 }
 @media(min-width:1024px){
     .products{

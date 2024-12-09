@@ -170,13 +170,6 @@ header img {
   color: rgb(182, 182, 182);
 }
 
-.calendarContainer {
-  /* width: 100vw;
-  height: 100vh;
-  position: absolute;
-  top: -100px;
-  right: -80px; */
-}
 
 .calendar {
   position: absolute;
@@ -325,7 +318,7 @@ header img {
   }
 
   .thumbnail {
-    width: 120px;
+    width: 112px;
     height: 90px;
   }
 }

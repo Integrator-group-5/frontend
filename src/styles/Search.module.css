@@ -1,13 +1,16 @@
 .noBorder {
     border: 0;
+    width: 281px;
+    height: 253px;
 }
 
 .confirmButton {
     color: white;
-    background-color: #231942;
+    background-color: #C3B2FB;
     border-radius: 5px;
-    width: 48px;
+    width: 100px;
     height: 48px;
+    outline: none;
 }
 
 .container {

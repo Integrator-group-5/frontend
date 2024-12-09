@@ -6,7 +6,8 @@ import Card from "./Card";
 const TopRentas = () => {
   const [topRentas, setTopRentas] = useState([]);
   const navigate=useNavigate();
-  const url = "http://localhost:8080/api/v1/products/top-rents";
+  const baseUrl= import.meta.env.VITE_API_BASE_URL
+  const url =`${baseUrl}/api/v1/products/top-rents`;
 
   useEffect(() => {
     const fetchData = async () => {

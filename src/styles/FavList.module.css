@@ -1,7 +1,7 @@
 .productListContainer {
     max-width: 3000px; /* Max width for the container */
     margin: 0 auto;
-
+    min-height: 50vh;
     text-align: center;
 }
 
@@ -39,6 +39,7 @@
     /* Grid layout for responsive rows */
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     padding: 0 20px 20px;
+    min-height: calc(100vh - 600px);
 }
 @media(min-width:1024px){
     .products{
@@ -196,4 +197,8 @@ p {
     h2{
        font-size: 16px;
     }
+}
+
+.noFavorites {
+    font-size: 18px;
 }

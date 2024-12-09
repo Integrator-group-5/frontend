@@ -7,6 +7,7 @@ import Pagination from "./Pagination";
 import useAxios from "../Utils/axiosInstance";
 import DetailHeader from "./DetailHeader";
 import ModalGlobal from "./ModalGlobal";
+import CardProduct from "./CardProduct";
 
 const PaginatedProductList = ({ pageSize = 6 }) => {
   const { categoryName } = useParams(); // Get categoryName from URL
@@ -24,6 +25,7 @@ const PaginatedProductList = ({ pageSize = 6 }) => {
   const [totalElements, setTotalElements] = useState(0);
   const [numElements, setNumElements] = useState(0);
   const axios = useAxios();
+  const baseUrl=import.meta.env.VITE_API_BASE_URL
 
   // Fetch products for the current page
   useEffect(() => {
@@ -58,10 +60,6 @@ const PaginatedProductList = ({ pageSize = 6 }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoryName, currentPage]);
 
-  const handleCardClick = (productId) => {
-    navigate(`/detail/${productId}`); // Navigate to the detail page with productId
-  };
-
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
@@ -90,41 +88,7 @@ const PaginatedProductList = ({ pageSize = 6 }) => {
       {error && <p>{error}</p>}
 
       {/* Display Products */}
-      <div className={styles.products}>
-        {products.map((product) => (
-          <div
-            key={product.productId}
-            className={styles.productCard}
-            onClick={() => handleCardClick(product.productId)}
-          >
-            <HeartButton id={product.productId}/>
-            <img
-              className={styles.productImage}
-              src={`http://localhost:8080${product.images[0].url}`}
-              alt={product.name}
-              onError={(e) => {
-                const fallback1 = `http://localhost:8080/${product.images[0].url}`; // First fallback image
-                const fallback2 = `http://localhost:8080/public${product.images[0].url}`; // Second fallback image
-                const fallback3 = "placeholder.svg"; // Second fallback image
-
-                if (e.target.src === `http://localhost:8080${product.images[0].url}`) {
-                  e.target.src = fallback1; // Switch to the first fallback
-                } else if (e.target.src === fallback1) {
-                  e.target.src = fallback2; // Switch to the second fallback
-                } else if (e.target.src === fallback2) {
-                  e.target.src = fallback3; // Switch to the third fallback
-                } else {
-                  e.target.onerror = null; // Prevent infinite fallback loop
-                }
-              }}
-            />
-            <div className={styles.contenedor}>
-              <h2>{product.name}</h2>
-              <p>Alquiler: {formatCurrency(product.price, "es-CO", "COP")}</p>
-            </div>
-          </div>
-        ))}
-      </div>
+      <CardProduct products={products}/>
       <Pagination
         currentPage={currentPage}
         totalPage={totalPages}

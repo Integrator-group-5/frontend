@@ -3,44 +3,44 @@ import stylesProduct from "../styles/productForm.module.css";
 import TextArea from "./TextArea";
 import Input from "./Input";
 import Button from "./Button";
+import CarouselImageUpdate from "./CarouselImageUpdate.jsx";
 import FilePicker from "./FilePicker";
 import MultiSelector from "./Multiselector";
 import useAxios from "../Utils/axiosInstance";
 import Modal from "./Modal.jsx";
-import {v4 as uuidv4} from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
 const MAX_FILES = 5;
 
-const ProductsForm = ({ onClose, clase, isEdit=false, initialData={} }) => {
-
+const ProductsForm = ({ onClose, clase, isEdit = false, initialData = {} }) => {
   const [product, setProduct] = useState(() =>
     isEdit && initialData
       ? {
-        name: initialData.name || "",
-        reference: initialData.reference || "",
-        description: initialData.description || "",
-        material: initialData.material || "",
-        color: initialData.color || "",
-        designer: initialData.designer || "",
-        price: initialData.price || "",
-        images: initialData.images || [],
-        category: initialData.category || null,
-        sizes: initialData.sizes || [],
-        productId: initialData.productId || null, // Explicitly include id here
-      }
+          name: initialData.name || "",
+          reference: initialData.reference || "",
+          description: initialData.description || "",
+          material: initialData.material || "",
+          color: initialData.color || "",
+          designer: initialData.designer || "",
+          price: initialData.price || "",
+          images: initialData.images || [],
+          category: initialData.category || null,
+          sizes: initialData.sizes || [],
+          productId: initialData.productId || null, // Explicitly include id here
+        }
       : {
-        id:"",
-        name: "",
-        reference: "",
-        description: "",
-        material: "",
-        color: "",
-        designer: "",
-        price: "",
-        images: [],
-        category: null,
-        sizes: [],
-      }
+          id: "",
+          name: "",
+          reference: "",
+          description: "",
+          material: "",
+          color: "",
+          designer: "",
+          price: "",
+          images: [],
+          category: null,
+          sizes: [],
+        }
   );
 
   const [error, setError] = useState({
@@ -65,7 +65,7 @@ const ProductsForm = ({ onClose, clase, isEdit=false, initialData={} }) => {
   });
 
   const noNumbersRegex = /^\D*$/;
-  const onlyNumbers=/^-?\d+(\.\d+)?$/;
+  const onlyNumbers = /^-?\d+(\.\d+)?$/;
 
   const toUrlFriendlyString = (str) =>
     str
@@ -74,35 +74,39 @@ const ProductsForm = ({ onClose, clase, isEdit=false, initialData={} }) => {
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, "-") // Replace non-alphanumeric characters with dashes
       .replace(/^-+|-+$/g, ""); // Trim leading and trailing dashes
-
-  const url = "http://localhost:8080/api/v1/products";
+  const baseUrl= import.meta.env.VITE_API_BASE_URL;
+  const url = `${baseUrl}/api/v1/products`;
   const [categoriesTitle, setCategoriesTitle] = useState([]);
   const [sizesOptions, setSizesOptions] = useState([]);
-  const axios= useAxios();
+  const axios = useAxios();
 
   // cargar las categorias y tallas desde el backend
   useEffect(() => {
     const fetchCategoriesAndSizes = async () => {
       const [categoriesResponse, sizesResponse] = await Promise.all([
-        fetch("http://localhost:8080/api/v1/categories"),
-        fetch("http://localhost:8080/api/v1/sizes"), // Assuming endpoint exists
+        fetch(`${baseUrl}/api/v1/categories`),
+        fetch(`${baseUrl}/api/v1/sizes`), // Assuming endpoint exists
       ]);
       const categoriesData = await categoriesResponse.json();
       const sizesData = await sizesResponse.json();
 
-      setCategoriesTitle(categoriesData.map(category => ({
-        value: category.id,
-        label: category.name,
-        id: category.id,
-        name: category.name,
-      })));
+      setCategoriesTitle(
+        categoriesData.map((category) => ({
+          value: category.id,
+          label: category.name,
+          id: category.id,
+          name: category.name,
+        }))
+      );
 
-      setSizesOptions(sizesData.map(size => ({
-        value: size.id,
-        label: size.size,
-        id: size.id,
-        size: size.size,
-      })));
+      setSizesOptions(
+        sizesData.map((size) => ({
+          value: size.id,
+          label: size.size,
+          id: size.id,
+          size: size.size,
+        }))
+      );
     };
     fetchCategoriesAndSizes();
   }, []);
@@ -153,13 +157,15 @@ const ProductsForm = ({ onClose, clase, isEdit=false, initialData={} }) => {
 
     // Validate file types
     const invalidFiles = files.filter(
-      (file) => !validExtensions.includes(file.name.split(".").pop().toLowerCase())
+      (file) =>
+        !validExtensions.includes(file.name.split(".").pop().toLowerCase())
     );
 
     if (invalidFiles.length > 0) {
       setError({
         ...error,
-        images: "El archivo debe ser una imagen en formato .jpg, .jpeg, .png, .webp, .svg o .gif",
+        images:
+          "El archivo debe ser una imagen en formato .jpg, .jpeg, .png, .webp, .svg o .gif",
       });
       return;
     }
@@ -185,13 +191,15 @@ const ProductsForm = ({ onClose, clase, isEdit=false, initialData={} }) => {
       }));
     } else {
       // For creating a new product
-      setProduct({...product, images: files});
+      setProduct({ ...product, images: files });
     }
     setError({ ...error, images: "" });
   };
 
   const handleCategories = (selected) => {
-    const category = categoriesTitle.find((cat) => cat.value === selected.value);
+    const category = categoriesTitle.find(
+      (cat) => cat.value === selected.value
+    );
     setProduct({ ...product, category }); // Assign the full object
     setError({ ...error, category: "" });
   };
@@ -204,9 +212,19 @@ const ProductsForm = ({ onClose, clase, isEdit=false, initialData={} }) => {
     setError({ ...error, sizes: "" });
   };
 
+  const handleDeleteImage = (imageId) => {
+    setProduct({
+      ...product,
+      images: product.images.filter((image) => image.imageId !== imageId),
+    });
+    setError({ ...error, images: "" });
+  };
+
   const validateReference = async (reference) => {
     try {
-      const response = await axios.get(`/api/v1/products/by-reference/${reference}`);
+      const response = await axios.get(
+        `/api/v1/products/by-reference/${reference}`
+      );
       // Si la respuesta no lanza error, significa que la referencia existe
       return false; // Referencia ya existente
     } catch (error) {
@@ -243,44 +261,60 @@ const ProductsForm = ({ onClose, clase, isEdit=false, initialData={} }) => {
     let errors = {};
 
     if (!isEdit) {
-      const isReferenceValid= await validateReference(product.reference);
-      const isNameValid= await validateName(product.name);
+      const isReferenceValid = await validateReference(product.reference);
+      const isNameValid = await validateName(product.name);
 
       if (!isReferenceValid) {
-        errors.reference= "La referencia ya existe.Elija otra";
-        formIsValid=false;
+        errors.reference = "La referencia ya existe.Elija otra";
+        formIsValid = false;
       }
       if (!isNameValid) {
-        errors.name="El nombre de ese producto ya existe. Elija otro"
-        formIsValid=false;
+        errors.name = "El nombre de ese producto ya existe. Elija otro";
+        formIsValid = false;
       }
     }
 
     if (!noNumbersRegex.test(product.name) || product.name.trim().length < 3) {
-      errors.name= "El nombre debe ser válido y tener al menos 3 caracteres";
+      errors.name = "El nombre debe ser válido y tener al menos 3 caracteres";
       formIsValid = false;
     }
     if (product.reference.trim().length < 1) {
-      errors.reference = "La referencia debe ser válida y tener al menos 1 caractere";
+      errors.reference =
+        "La referencia debe ser válida y tener al menos 1 caractere";
       formIsValid = false;
     }
     if (product.description.trim().length < 5) {
       errors.description = "La descripción debe tener al menos 5 caracteres.";
       formIsValid = false;
     }
-    if (!noNumbersRegex.test(product.material) || product.material.trim().length < 4) {
-      errors.material = "El material debe ser válido y tener más de 4 caracteres";
+    if (
+      !noNumbersRegex.test(product.material) ||
+      product.material.trim().length < 4
+    ) {
+      errors.material =
+        "El material debe ser válido y tener más de 4 caracteres";
       formIsValid = false;
     }
-    if (!noNumbersRegex.test(product.color) || product.color.trim().length < 3) {
+    if (
+      !noNumbersRegex.test(product.color) ||
+      product.color.trim().length < 3
+    ) {
       errors.color = "El color debe ser válido y tener más de 3 caracteres";
       formIsValid = false;
     }
-    if (!noNumbersRegex.test(product.designer) || product.designer.trim().length < 3) {
-      errors.designer = "El Diseñador debe ser válido y tener más de 3 caracteres";
+    if (
+      !noNumbersRegex.test(product.designer) ||
+      product.designer.trim().length < 3
+    ) {
+      errors.designer =
+        "El Diseñador debe ser válido y tener más de 3 caracteres";
       formIsValid = false;
     }
-    if (!onlyNumbers.test(product.price) || !product.price || isNaN(product.price)) {
+    if (
+      !onlyNumbers.test(product.price) ||
+      !product.price ||
+      isNaN(product.price)
+    ) {
       errors.price = "El precio del producto solo debe contener números";
       formIsValid = false;
     }
@@ -305,23 +339,61 @@ const ProductsForm = ({ onClose, clase, isEdit=false, initialData={} }) => {
 
     if (formIsValid) {
       const uploadedImages = isEdit
-        ? product.images
-        : await Promise.all(
-          product.images.map(async (file) => {
-            const formData = new FormData();
-            const uniqueIdentifier = uuidv4();
-            const fileExtension = file.name.split(".").pop();
-            const fileName = `${toUrlFriendlyString(product.name)}__${uniqueIdentifier}.${fileExtension}`;
-            formData.append("file", file);
-            formData.append("name", fileName);
-            formData.append("category", toUrlFriendlyString(product.category.name));
+        ? await Promise.all(
+            product.images.map(async (file) => {
+              if (file instanceof File) {
+                const formData = new FormData();
+                const uniqueIdentifier = uuidv4();
+                const fileExtension = file.name.split(".").pop();
+                const fileName = `${toUrlFriendlyString(
+                  product.name
+                )}__${uniqueIdentifier}.${fileExtension}`;
 
-            const response = await axios.post("/api/v1/products/upload", formData, {
-              headers: {"Content-Type": "multipart/form-data"},
-            });
-            return {url: response.data.response};
-          })
-      );
+                formData.append("file", file);
+                formData.append("name", fileName);
+                formData.append(
+                  "category",
+                  toUrlFriendlyString(product.category.name)
+                );
+
+                const response = await axios.post(
+                  "/api/v1/products/upload",
+                  formData,
+                  {
+                    headers: { "Content-Type": "multipart/form-data" },
+                  }
+                );
+
+                return { url: `${response.data.response}` };
+              }
+              return file;
+            })
+          )
+        : await Promise.all(
+            product.images.map(async (file) => {
+              const formData = new FormData();
+              const uniqueIdentifier = uuidv4();
+              const fileExtension = file.name.split(".").pop();
+              const fileName = `${toUrlFriendlyString(
+                product.name
+              )}__${uniqueIdentifier}.${fileExtension}`;
+              formData.append("file", file);
+              formData.append("name", fileName);
+              formData.append(
+                "category",
+                toUrlFriendlyString(product.category.name)
+              );
+
+              const response = await axios.post(
+                "/api/v1/products/upload",
+                formData,
+                {
+                  headers: { "Content-Type": "multipart/form-data" },
+                }
+              );
+              return { url: `${response.data.response}` };
+            })
+          );
 
       const body = {
         name: product.name.trim(),
@@ -337,17 +409,18 @@ const ProductsForm = ({ onClose, clase, isEdit=false, initialData={} }) => {
       };
 
       const method = isEdit ? "PUT" : "POST";
-      const endpoint = isEdit && product.productId ? `${url}/${product.productId}` : url;
+      const endpoint =
+        isEdit && product.productId ? `${url}/${product.productId}` : url;
 
       try {
         const response = await axios({
-        method,
+          method,
           url: endpoint,
           data: body,
         });
 
         // Handle non-201 status codes
-        if (response.status === 200 || response.status === 201 ) {
+        if (response.status === 200 || response.status === 201) {
           setModalInfo({
             show: true,
             titulo: "¡Felicidades!",
@@ -362,7 +435,8 @@ const ProductsForm = ({ onClose, clase, isEdit=false, initialData={} }) => {
           show: true,
           titulo: "Error de conexión",
           subtitulo: "Hubo un problema con la conexión.",
-          mensaje: "Por favor, verifica tu conexión a Internet e intenta nuevamente.",
+          mensaje:
+            "Por favor, verifica tu conexión a Internet e intenta nuevamente.",
           img: "./ohNo.png",
         });
       }
@@ -370,10 +444,9 @@ const ProductsForm = ({ onClose, clase, isEdit=false, initialData={} }) => {
   };
   const handleSuccessClose = () => {
     // Reset form fields
-    setProduct(
-      () =>
-        isEdit && initialData
-          ? {
+    setProduct(() =>
+      isEdit && initialData
+        ? {
             name: initialData.name || "",
             reference: initialData.reference || "",
             description: initialData.description || "",
@@ -386,7 +459,7 @@ const ProductsForm = ({ onClose, clase, isEdit=false, initialData={} }) => {
             sizes: initialData.sizes || [],
             productId: initialData.productId || null, // Explicitly include id here
           }
-          : {
+        : {
             name: "",
             reference: "",
             description: "",
@@ -414,8 +487,8 @@ const ProductsForm = ({ onClose, clase, isEdit=false, initialData={} }) => {
 
     // Close the modal
     setModalInfo({ ...modalInfo, show: false });
-    if (onClose) onClose();  // Notify parent to close modal
-};
+    if (onClose) onClose(); // Notify parent to close modal
+  };
 
   return (
     <div className={stylesProduct.containerProduct}>
@@ -431,9 +504,12 @@ const ProductsForm = ({ onClose, clase, isEdit=false, initialData={} }) => {
         ) : (
           <div className={stylesProduct.formularioProduct}>
             <h2 className={stylesProduct.title}>
-              {isEdit? "Editar Producto": "Crear Producto"}
+              {isEdit ? "Editar Producto" : "Crear Producto"}
             </h2>
-            <form onSubmit={handleSubmit} className={stylesProduct.registroProduct}>
+            <form
+              onSubmit={handleSubmit}
+              className={stylesProduct.registroProduct}
+            >
               <Input
                 id="nombre"
                 label="Nombre"
@@ -445,14 +521,14 @@ const ProductsForm = ({ onClose, clase, isEdit=false, initialData={} }) => {
                 className={stylesProduct.nombre}
               />
               <MultiSelector
-                  label="Categorías"
-                  options={categoriesTitle}
-                  placeholder="Seleccione la categoría"
-                  onChange={handleCategories}
-                  multiselector={false}
-                  error={error.category}
-                  preselected= {product.categories}
-                />
+                label="Categorías"
+                options={categoriesTitle}
+                placeholder="Seleccione la categoría"
+                onChange={handleCategories}
+                multiselector={false}
+                error={error.category}
+                preselected={product.categories}
+              />
               <div className={stylesProduct.grid}>
                 <Input
                   id="Referencia"
@@ -532,8 +608,18 @@ const ProductsForm = ({ onClose, clase, isEdit=false, initialData={} }) => {
                 error={error.images}
                 archivos={2}
               />
-              <Button>{isEdit? "Actualizar":"Crear Producto"}</Button>
-              <button onClick={onClose} className={clase}>Cancelar</button>
+
+              {isEdit && (
+                <CarouselImageUpdate
+                  images={product.images}
+                  onDelete={handleDeleteImage}
+                />
+              )}
+
+              <Button>{isEdit ? "Actualizar" : "Crear Producto"}</Button>
+              <button onClick={onClose} className={clase}>
+                Cancelar
+              </button>
             </form>
           </div>
         )}

@@ -165,6 +165,7 @@
 }
 .link:hover{
     text-decoration: underline;
+    cursor: pointer;
 }
 @media(min-width:700px){
     .cuenta{

@@ -1,0 +1,319 @@
+{
+	"info": {
+		"_postman_id": "80c3e6cf-76c3-40a4-baac-99fa20882755",
+		"name": "Luxury Wear",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21179631"
+	},
+	"item": [
+		{
+			"name": "Get Product by Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/accounts/:id",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"accounts",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "458",
+							"description": "(Required) ID of account"
+						}
+					]
+				},
+				"description": "Get information about a product by passing the product `id` as a path parameter.\n\n### Response\n\nUpon a successful request, the response will contain a `product` object matching the search criteria.\n\nIf no product with that ID is found, the request will return a `Not Found` error."
+			},
+			"response": [
+				{
+					"name": "Succesful Response",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/products/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"products",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "(Required) ID of the product"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sat, 17 Feb 2024 14:46:30 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "84"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "uWebSockets",
+							"value": "20"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"id\": 1,\n  \"name\": \"Vestido de Gala Elegante\",\n  \"description\": \"Un vestido de gala de seda con detalles brillantes.\",\n  \"material\": \"Seda\",\n  \"color\": \"Rojo\",\n  \"designer\": \"Carolina Herrera\",\n  \"rental_price\": 120.50,\n  \"images\": [\n    {\n      \"id\": 101,\n      \"url\": \"https://example.com/images/vestido_gala_1.jpg\"\n    },\n    {\n      \"id\": 102,\n      \"url\": \"https://example.com/images/vestido_gala_2.jpg\"\n    },\n    {\n      \"id\": 103,\n      \"url\": \"https://example.com/images/vestido_gala_3.jpg\"\n    },\n    {\n      \"id\": 104,\n      \"url\": \"https://example.com/images/vestido_gala_4.jpg\"\n    },\n    {\n      \"id\": 105,\n      \"url\": \"https://example.com/images/vestido_gala_5.jpg\"\n    }\n  ],\n  \"categories\": [\n    {\n      \"id\": 1,\n      \"name\": \"Gala\",\n      \"description\": \"Vestidos para eventos formales.\"\n    },\n    {\n      \"id\": 2,\n      \"name\": \"Elegante\",\n      \"description\": \"Ropa de lujo para ocasiones especiales.\"\n    }\n  ],\n  \"available_sizes\": [\n    {\n      \"id\": 1,\n      \"size\": \"S\"\n    },\n    {\n      \"id\": 2,\n      \"size\": \"M\"\n    }\n  ]\n}\n"
+				},
+				{
+					"name": "Not found",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/products/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "999",
+									"description": "(Required) ID of the product"
+								}
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sat, 17 Feb 2024 13:18:51 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "63"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "uWebSockets",
+							"value": "20"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"timestamp\": \"2024-10-24T22:47:30.5668289\",\n    \"message\": \"Product not found with id: 999\",\n    \"details\": \"/api/v1/products/999\"\n}"
+				}
+			]
+		},
+		{
+			"name": "List Products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/products",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"products"
+					]
+				},
+				"description": "List all products that exist at the the database.\n\n### Response\n\nUpon a successful request, the response will return an array of nested products."
+			},
+			"response": [
+				{
+					"name": "Successful Response",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"products"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "[\n  {\n    \"id\": 1,\n    \"name\": \"Vestido de Gala Elegante\",\n    \"description\": \"Un vestido de gala de seda con detalles brillantes.\",\n    \"material\": \"Seda\",\n    \"color\": \"Rojo\",\n    \"designer\": \"Carolina Herrera\",\n    \"rental_price\": 120.5,\n    \"images\": [\n      {\n        \"id\": 101,\n        \"url\": \"https://example.com/images/vestido_gala_1.jpg\"\n      },\n      {\n        \"id\": 102,\n        \"url\": \"https://example.com/images/vestido_gala_2.jpg\"\n      },\n      {\n        \"id\": 103,\n        \"url\": \"https://example.com/images/vestido_gala_3.jpg\"\n      },\n      {\n        \"id\": 104,\n        \"url\": \"https://example.com/images/vestido_gala_4.jpg\"\n      },\n      {\n        \"id\": 105,\n        \"url\": \"https://example.com/images/vestido_gala_5.jpg\"\n      }\n    ],\n    \"categories\": [\n      {\n        \"id\": 1,\n        \"name\": \"Gala\",\n        \"description\": \"Vestidos para eventos formales.\"\n      },\n      {\n        \"id\": 2,\n        \"name\": \"Elegante\",\n        \"description\": \"Ropa de lujo para ocasiones especiales.\"\n      }\n    ],\n    \"available_sizes\": [\n      {\n        \"id\": 1,\n        \"size\": \"S\"\n      },\n      {\n        \"id\": 2,\n        \"size\": \"M\"\n      }\n    ]\n  },\n  {\n    \"id\": 2,\n    \"name\": \"Vestido Casual Veraniego\",\n    \"description\": \"Un vestido ligero y fresco, perfecto para el verano.\",\n    \"material\": \"Algodón\",\n    \"color\": \"Blanco con estampado floral\",\n    \"designer\": \"Zara\",\n    \"rental_price\": 45,\n    \"images\": [\n      {\n        \"id\": 106,\n        \"url\": \"https://example.com/images/vestido_casual_1.jpg\"\n      },\n      {\n        \"id\": 107,\n        \"url\": \"https://example.com/images/vestido_casual_2.jpg\"\n      },\n      {\n        \"id\": 108,\n        \"url\": \"https://example.com/images/vestido_casual_3.jpg\"\n      },\n      {\n        \"id\": 109,\n        \"url\": \"https://example.com/images/vestido_casual_4.jpg\"\n      },\n      {\n        \"id\": 110,\n        \"url\": \"https://example.com/images/vestido_casual_5.jpg\"\n      }\n    ],\n    \"categories\": [\n      {\n        \"id\": 3,\n        \"name\": \"Casual\",\n        \"description\": \"Vestidos cómodos y sencillos para el día a día.\"\n      }\n    ],\n    \"available_sizes\": [\n      {\n        \"id\": 3,\n        \"size\": \"M\"\n      },\n      {\n        \"id\": 4,\n        \"size\": \"L\"\n      }\n    ]\n  },\n  {\n    \"id\": 3,\n    \"name\": \"Vestido de Fiesta con Lentejuelas\",\n    \"description\": \"Un vestido corto y llamativo, perfecto para una fiesta nocturna.\",\n    \"material\": \"Poliéster con lentejuelas\",\n    \"color\": \"Negro\",\n    \"designer\": \"Balmain\",\n    \"rental_price\": 85,\n    \"images\": [\n      {\n        \"id\": 111,\n        \"url\": \"https://example.com/images/vestido_fiesta_1.jpg\"\n      },\n      {\n        \"id\": 112,\n        \"url\": \"https://example.com/images/vestido_fiesta_2.jpg\"\n      },\n      {\n        \"id\": 113,\n        \"url\": \"https://example.com/images/vestido_fiesta_3.jpg\"\n      },\n      {\n        \"id\": 114,\n        \"url\": \"https://example.com/images/vestido_fiesta_4.jpg\"\n      },\n      {\n        \"id\": 115,\n        \"url\": \"https://example.com/images/vestido_fiesta_5.jpg\"\n      }\n    ],\n    \"categories\": [\n      {\n        \"id\": 4,\n        \"name\": \"Fiesta\",\n        \"description\": \"Vestidos para eventos de celebración.\"\n      },\n      {\n        \"id\": 2,\n        \"name\": \"Elegante\",\n        \"description\": \"Ropa de lujo para ocasiones especiales.\"\n      }\n    ],\n    \"available_sizes\": [\n      {\n        \"id\": 1,\n        \"size\": \"S\"\n      },\n      {\n        \"id\": 4,\n        \"size\": \"L\"\n      }\n    ]\n  },\n  {\n    \"id\": 4,\n    \"name\": \"Vestido Vintage Clásico\",\n    \"description\": \"Un vestido inspirado en los años 50 con un diseño clásico.\",\n    \"material\": \"Seda y encaje\",\n    \"color\": \"Azul claro\",\n    \"designer\": \"Dior\",\n    \"rental_price\": 95,\n    \"images\": [\n      {\n        \"id\": 116,\n        \"url\": \"https://example.com/images/vestido_vintage_1.jpg\"\n      },\n      {\n        \"id\": 117,\n        \"url\": \"https://example.com/images/vestido_vintage_2.jpg\"\n      },\n      {\n        \"id\": 118,\n        \"url\": \"https://example.com/images/vestido_vintage_3.jpg\"\n      },\n      {\n        \"id\": 119,\n        \"url\": \"https://example.com/images/vestido_vintage_4.jpg\"\n      },\n      {\n        \"id\": 120,\n        \"url\": \"https://example.com/images/vestido_vintage_5.jpg\"\n      }\n    ],\n    \"categories\": [\n      {\n        \"id\": 5,\n        \"name\": \"Vintage\",\n        \"description\": \"Ropa de estilo retro o inspirada en décadas pasadas.\"\n      }\n    ],\n    \"available_sizes\": [\n      {\n        \"id\": 2,\n        \"size\": \"M\"\n      }\n    ]\n  }\n]"
+				}
+			]
+		},
+		{
+			"name": "List Products Random",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/products/top-rents",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"products",
+						"top-rents"
+					]
+				},
+				"description": "List all products that exist at the the database. With the difference that with each call the products change order.\n\nResponse\nUpon a successful request, the response will return an array of nested products.\n"
+			},
+			"response": [
+				{
+					"name": "Successful Response",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/products/top-rents",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"top-rents"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "[\n  {\n    \"id\": 1,\n    \"name\": \"Vestido de Gala Elegante\",\n    \"description\": \"Un vestido de gala de seda con detalles brillantes.\",\n    \"material\": \"Seda\",\n    \"color\": \"Rojo\",\n    \"designer\": \"Carolina Herrera\",\n    \"rental_price\": 120.5,\n    \"images\": [\n      {\n        \"id\": 101,\n        \"url\": \"https://example.com/images/vestido_gala_1.jpg\"\n      },\n      {\n        \"id\": 102,\n        \"url\": \"https://example.com/images/vestido_gala_2.jpg\"\n      },\n      {\n        \"id\": 103,\n        \"url\": \"https://example.com/images/vestido_gala_3.jpg\"\n      },\n      {\n        \"id\": 104,\n        \"url\": \"https://example.com/images/vestido_gala_4.jpg\"\n      },\n      {\n        \"id\": 105,\n        \"url\": \"https://example.com/images/vestido_gala_5.jpg\"\n      }\n    ],\n    \"categories\": [\n      {\n        \"id\": 1,\n        \"name\": \"Gala\",\n        \"description\": \"Vestidos para eventos formales.\"\n      },\n      {\n        \"id\": 2,\n        \"name\": \"Elegante\",\n        \"description\": \"Ropa de lujo para ocasiones especiales.\"\n      }\n    ],\n    \"available_sizes\": [\n      {\n        \"id\": 1,\n        \"size\": \"S\"\n      },\n      {\n        \"id\": 2,\n        \"size\": \"M\"\n      }\n    ]\n  },\n  {\n    \"id\": 2,\n    \"name\": \"Vestido Casual Veraniego\",\n    \"description\": \"Un vestido ligero y fresco, perfecto para el verano.\",\n    \"material\": \"Algodón\",\n    \"color\": \"Blanco con estampado floral\",\n    \"designer\": \"Zara\",\n    \"rental_price\": 45,\n    \"images\": [\n      {\n        \"id\": 106,\n        \"url\": \"https://example.com/images/vestido_casual_1.jpg\"\n      },\n      {\n        \"id\": 107,\n        \"url\": \"https://example.com/images/vestido_casual_2.jpg\"\n      },\n      {\n        \"id\": 108,\n        \"url\": \"https://example.com/images/vestido_casual_3.jpg\"\n      },\n      {\n        \"id\": 109,\n        \"url\": \"https://example.com/images/vestido_casual_4.jpg\"\n      },\n      {\n        \"id\": 110,\n        \"url\": \"https://example.com/images/vestido_casual_5.jpg\"\n      }\n    ],\n    \"categories\": [\n      {\n        \"id\": 3,\n        \"name\": \"Casual\",\n        \"description\": \"Vestidos cómodos y sencillos para el día a día.\"\n      }\n    ],\n    \"available_sizes\": [\n      {\n        \"id\": 3,\n        \"size\": \"M\"\n      },\n      {\n        \"id\": 4,\n        \"size\": \"L\"\n      }\n    ]\n  },\n  {\n    \"id\": 3,\n    \"name\": \"Vestido de Fiesta con Lentejuelas\",\n    \"description\": \"Un vestido corto y llamativo, perfecto para una fiesta nocturna.\",\n    \"material\": \"Poliéster con lentejuelas\",\n    \"color\": \"Negro\",\n    \"designer\": \"Balmain\",\n    \"rental_price\": 85,\n    \"images\": [\n      {\n        \"id\": 111,\n        \"url\": \"https://example.com/images/vestido_fiesta_1.jpg\"\n      },\n      {\n        \"id\": 112,\n        \"url\": \"https://example.com/images/vestido_fiesta_2.jpg\"\n      },\n      {\n        \"id\": 113,\n        \"url\": \"https://example.com/images/vestido_fiesta_3.jpg\"\n      },\n      {\n        \"id\": 114,\n        \"url\": \"https://example.com/images/vestido_fiesta_4.jpg\"\n      },\n      {\n        \"id\": 115,\n        \"url\": \"https://example.com/images/vestido_fiesta_5.jpg\"\n      }\n    ],\n    \"categories\": [\n      {\n        \"id\": 4,\n        \"name\": \"Fiesta\",\n        \"description\": \"Vestidos para eventos de celebración.\"\n      },\n      {\n        \"id\": 2,\n        \"name\": \"Elegante\",\n        \"description\": \"Ropa de lujo para ocasiones especiales.\"\n      }\n    ],\n    \"available_sizes\": [\n      {\n        \"id\": 1,\n        \"size\": \"S\"\n      },\n      {\n        \"id\": 4,\n        \"size\": \"L\"\n      }\n    ]\n  },\n  {\n    \"id\": 4,\n    \"name\": \"Vestido Vintage Clásico\",\n    \"description\": \"Un vestido inspirado en los años 50 con un diseño clásico.\",\n    \"material\": \"Seda y encaje\",\n    \"color\": \"Azul claro\",\n    \"designer\": \"Dior\",\n    \"rental_price\": 95,\n    \"images\": [\n      {\n        \"id\": 116,\n        \"url\": \"https://example.com/images/vestido_vintage_1.jpg\"\n      },\n      {\n        \"id\": 117,\n        \"url\": \"https://example.com/images/vestido_vintage_2.jpg\"\n      },\n      {\n        \"id\": 118,\n        \"url\": \"https://example.com/images/vestido_vintage_3.jpg\"\n      },\n      {\n        \"id\": 119,\n        \"url\": \"https://example.com/images/vestido_vintage_4.jpg\"\n      },\n      {\n        \"id\": 120,\n        \"url\": \"https://example.com/images/vestido_vintage_5.jpg\"\n      }\n    ],\n    \"categories\": [\n      {\n        \"id\": 5,\n        \"name\": \"Vintage\",\n        \"description\": \"Ropa de estilo retro o inspirada en décadas pasadas.\"\n      }\n    ],\n    \"available_sizes\": [\n      {\n        \"id\": 2,\n        \"size\": \"M\"\n      }\n    ]\n  }\n]"
+				},
+				{
+					"name": "Successful Response different order",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/products/top-rents",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"top-rents"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "[\n  {\n    \"id\": 2,\n    \"name\": \"Vestido Casual Veraniego\",\n    \"description\": \"Un vestido ligero y fresco, perfecto para el verano.\",\n    \"material\": \"Algodón\",\n    \"color\": \"Blanco con estampado floral\",\n    \"designer\": \"Zara\",\n    \"rental_price\": 45,\n    \"images\": [\n      {\n        \"id\": 106,\n        \"url\": \"https://example.com/images/vestido_casual_1.jpg\"\n      },\n      {\n        \"id\": 107,\n        \"url\": \"https://example.com/images/vestido_casual_2.jpg\"\n      },\n      {\n        \"id\": 108,\n        \"url\": \"https://example.com/images/vestido_casual_3.jpg\"\n      },\n      {\n        \"id\": 109,\n        \"url\": \"https://example.com/images/vestido_casual_4.jpg\"\n      },\n      {\n        \"id\": 110,\n        \"url\": \"https://example.com/images/vestido_casual_5.jpg\"\n      }\n    ],\n    \"categories\": [\n      {\n        \"id\": 3,\n        \"name\": \"Casual\",\n        \"description\": \"Vestidos cómodos y sencillos para el día a día.\"\n      }\n    ],\n    \"available_sizes\": [\n      {\n        \"id\": 3,\n        \"size\": \"M\"\n      },\n      {\n        \"id\": 4,\n        \"size\": \"L\"\n      }\n    ]\n  },\n  {\n    \"id\": 1,\n    \"name\": \"Vestido de Gala Elegante\",\n    \"description\": \"Un vestido de gala de seda con detalles brillantes.\",\n    \"material\": \"Seda\",\n    \"color\": \"Rojo\",\n    \"designer\": \"Carolina Herrera\",\n    \"rental_price\": 120.5,\n    \"images\": [\n      {\n        \"id\": 101,\n        \"url\": \"https://example.com/images/vestido_gala_1.jpg\"\n      },\n      {\n        \"id\": 102,\n        \"url\": \"https://example.com/images/vestido_gala_2.jpg\"\n      },\n      {\n        \"id\": 103,\n        \"url\": \"https://example.com/images/vestido_gala_3.jpg\"\n      },\n      {\n        \"id\": 104,\n        \"url\": \"https://example.com/images/vestido_gala_4.jpg\"\n      },\n      {\n        \"id\": 105,\n        \"url\": \"https://example.com/images/vestido_gala_5.jpg\"\n      }\n    ],\n    \"categories\": [\n      {\n        \"id\": 1,\n        \"name\": \"Gala\",\n        \"description\": \"Vestidos para eventos formales.\"\n      },\n      {\n        \"id\": 2,\n        \"name\": \"Elegante\",\n        \"description\": \"Ropa de lujo para ocasiones especiales.\"\n      }\n    ],\n    \"available_sizes\": [\n      {\n        \"id\": 1,\n        \"size\": \"S\"\n      },\n      {\n        \"id\": 2,\n        \"size\": \"M\"\n      }\n    ]\n  },\n  {\n    \"id\": 4,\n    \"name\": \"Vestido Vintage Clásico\",\n    \"description\": \"Un vestido inspirado en los años 50 con un diseño clásico.\",\n    \"material\": \"Seda y encaje\",\n    \"color\": \"Azul claro\",\n    \"designer\": \"Dior\",\n    \"rental_price\": 95,\n    \"images\": [\n      {\n        \"id\": 116,\n        \"url\": \"https://example.com/images/vestido_vintage_1.jpg\"\n      },\n      {\n        \"id\": 117,\n        \"url\": \"https://example.com/images/vestido_vintage_2.jpg\"\n      },\n      {\n        \"id\": 118,\n        \"url\": \"https://example.com/images/vestido_vintage_3.jpg\"\n      },\n      {\n        \"id\": 119,\n        \"url\": \"https://example.com/images/vestido_vintage_4.jpg\"\n      },\n      {\n        \"id\": 120,\n        \"url\": \"https://example.com/images/vestido_vintage_5.jpg\"\n      }\n    ],\n    \"categories\": [\n      {\n        \"id\": 5,\n        \"name\": \"Vintage\",\n        \"description\": \"Ropa de estilo retro o inspirada en décadas pasadas.\"\n      }\n    ],\n    \"available_sizes\": [\n      {\n        \"id\": 2,\n        \"size\": \"M\"\n      }\n    ]\n  },\n  {\n    \"id\": 3,\n    \"name\": \"Vestido de Fiesta con Lentejuelas\",\n    \"description\": \"Un vestido corto y llamativo, perfecto para una fiesta nocturna.\",\n    \"material\": \"Poliéster con lentejuelas\",\n    \"color\": \"Negro\",\n    \"designer\": \"Balmain\",\n    \"rental_price\": 85,\n    \"images\": [\n      {\n        \"id\": 111,\n        \"url\": \"https://example.com/images/vestido_fiesta_1.jpg\"\n      },\n      {\n        \"id\": 112,\n        \"url\": \"https://example.com/images/vestido_fiesta_2.jpg\"\n      },\n      {\n        \"id\": 113,\n        \"url\": \"https://example.com/images/vestido_fiesta_3.jpg\"\n      },\n      {\n        \"id\": 114,\n        \"url\": \"https://example.com/images/vestido_fiesta_4.jpg\"\n      },\n      {\n        \"id\": 115,\n        \"url\": \"https://example.com/images/vestido_fiesta_5.jpg\"\n      }\n    ],\n    \"categories\": [\n      {\n        \"id\": 4,\n        \"name\": \"Fiesta\",\n        \"description\": \"Vestidos para eventos de celebración.\"\n      },\n      {\n        \"id\": 2,\n        \"name\": \"Elegante\",\n        \"description\": \"Ropa de lujo para ocasiones especiales.\"\n      }\n    ],\n    \"available_sizes\": [\n      {\n        \"id\": 1,\n        \"size\": \"S\"\n      },\n      {\n        \"id\": 4,\n        \"size\": \"L\"\n      }\n    ]\n  }\n]"
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	]
+}

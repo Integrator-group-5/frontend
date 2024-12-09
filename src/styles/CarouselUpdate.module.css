@@ -1,0 +1,55 @@
+.carousel {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 8px;
+  list-style: none;
+  margin: 0;
+  margin-top: 10px;
+  background-color: #f7f2fa;
+  border-radius: 8px;
+}
+
+.carouselItem {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 8px;
+}
+
+.deleteButton {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.deleteButton:hover {
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+.deleteButton:focus {
+  outline: 2px solid #fff;
+}

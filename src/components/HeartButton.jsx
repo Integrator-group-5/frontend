@@ -16,7 +16,7 @@ const HeartButton = ({id,onToggle }) => {
       if (user) {
         try {
           const response = await axios.get(
-            `http://localhost:8080/api/v1/users/favorites`
+            `/api/v1/users/favorites`
           );
           // Verifica si el producto está en la lista de favoritos
           const isFavorite = response.data.content.some(
@@ -53,7 +53,7 @@ const HeartButton = ({id,onToggle }) => {
 
       // Realiza el POST a la API con el ID de la tarjeta
       const response = await axios.post(
-        `http://localhost:8080/api/v1/users/toggle-favorites?page=0&size=6&productId=${id}`,null,
+        `/api/v1/users/toggle-favorites?page=0&size=6&productId=${id}`,null,
         {
           headers: {
             "Content-Type": "application/json",

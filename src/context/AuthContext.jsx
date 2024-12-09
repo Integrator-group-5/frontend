@@ -2,8 +2,10 @@ import { createContext, useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 
 const AuthContext = createContext();
+const baseURL = import.meta.env.VITE_API_BASE_URL;
 
 export const AuthProvider = ({ children }) => {
+
   const [authTokens, setAuthTokens] = useState(() => {
     const tokens = localStorage.getItem('authTokens');
     return tokens ? JSON.parse(tokens) : null;
@@ -34,7 +36,7 @@ export const AuthProvider = ({ children }) => {
 
   const logoutUser = async () => {
     try {
-      await axios.post('http://localhost:8080/auth/logout', {
+      await axios.post(`${baseURL}/auth/logout`, {
         refreshToken: authTokens?.refreshToken,
       });
     } catch (error) {
@@ -52,7 +54,7 @@ export const AuthProvider = ({ children }) => {
 
   const refreshToken = async () => {
     try {
-      const response = await axios.post('http://localhost:8080/auth/token-refresh', {
+      const response = await axios.post(`${baseURL}/auth/token-refresh`, {
         refreshToken: authTokens.refreshToken,
       });
       const newTokens = response.data;

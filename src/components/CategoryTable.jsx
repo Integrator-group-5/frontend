@@ -13,6 +13,7 @@ const CategoryTable = ({ pageSize = 6,reload,setReload }) => {
   const [totalElementsCategories, setTotalElementsCategories] = useState(0);
   const [numElementsCategories, setNumElementsCategories] = useState(0);
   const axios = axiosInstance();
+  const baseUrl=import.meta.env.VITE_API_BASE_URL
   
 
   // fetch de los categorias paginados
@@ -63,7 +64,7 @@ const CategoryTable = ({ pageSize = 6,reload,setReload }) => {
   const confirmDeleteCategories = async () => {
     try {
       await axios.delete(
-        `http://localhost:8080/api/v1/categories/delete-category/${state.selectedId}`
+        `/api/v1/categories/delete-category/${state.selectedId}`
       );
       dispatch({type:"DELETE_CATEGORY",payload: state.selectedId}) //elimina la categoria de la lista
       dispatch({type:"HIDDEN_MODAL"}) //se cierra el modal
@@ -92,7 +93,7 @@ const CategoryTable = ({ pageSize = 6,reload,setReload }) => {
             <div className={styles.containerImage}>
               <img
                 className={styles.prodImage}
-                src={`http://localhost:8080${categorie.cover.url}`}
+                src={`${baseUrl}${categorie.cover.url}`}
                 alt={categorie.name}
                 onError={(e) => {
                   e.target.src = "placeholder.svg"; // Fallback image

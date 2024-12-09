@@ -56,9 +56,9 @@
 
 .option {
     display: flex;
-    justify-content: center;
+    justify-content: left;
     align-items: center;
-    gap: 5px;
+    gap: 25px;
     font-size: 12px;
     font-weight: bold;
     cursor: pointer;
@@ -67,6 +67,15 @@
 .option:hover {
     text-decoration: underline;
 }
+
+.button {
+    width: 194px;
+    height: 36px;
+    background-color: #D3CCF5;
+    border-radius: 12px;
+    font-size: 12px;
+}
+
 /* Ocultar el avatar en pantallas pequeñas */
 @media (max-width: 768px) {
     .avatar {

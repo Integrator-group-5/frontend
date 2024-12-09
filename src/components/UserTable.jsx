@@ -62,7 +62,7 @@ const UserTable = ({ pageSize = 6, reload, setReload }) => {
   const confirmDeleteUser = async () => {
     try {
       await axios.delete(
-        `http://localhost:8080/api/v1/users/delete-user/${state.selectedId}`
+        `/api/v1/users/delete-user/${state.selectedId}`
       );
       dispatch({type:"DELETE_USERS",payload:state.selectedId})
       dispatch({type: "HIDDEN_MODAL"})
@@ -81,11 +81,11 @@ const UserTable = ({ pageSize = 6, reload, setReload }) => {
   const confirmChangePermissions = async () => {
     try {
       if (selectedUserRole == "ADMIN")
-        await axios.put(`http://localhost:8080/api/v1/users/remove-admin`, {
+        await axios.put(`/api/v1/users/remove-admin`, {
           email: selectedUserEmail,
         });
       else
-        await axios.put(`http://localhost:8080/api/v1/users/set-admin`, {
+        await axios.put(`/api/v1/users/set-admin`, {
           email: selectedUserEmail,
         });
       setShowModalAdmin(false);

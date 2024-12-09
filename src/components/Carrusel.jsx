@@ -9,8 +9,9 @@ const Carrusel = () => {
   const [isTransitioning, setIsTransitioning] = useState(true);
   const carruselRef = useRef();
   const intervalRef = useRef();
+  const baseUrl=import.meta.env.VITE_API_BASE_URL
 
-  const url = "http://localhost:8080/api/v1/categories";
+  const url = `${baseUrl}/api/v1/categories`;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,7 +22,7 @@ const Carrusel = () => {
         ...category,
         cover: {
           ...category.cover,
-          url: `http://localhost:8080${category.cover.url}`, // Adjust base URL if needed
+          url: `${baseUrl}${category.cover.url}`, // Adjust base URL if needed
         },
       }));
       setCategorias([...formattedData, ...formattedData]);
