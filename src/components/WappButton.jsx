@@ -6,7 +6,7 @@ const WappButton = () => {
   const [error, setError] = useState(false);
 
   const handleClick = () => {
-    const whatsappUrl = "https://wa.me/521234567890"; // Reemplazar número
+    const whatsappUrl = "https://wa.me/525514328661"; // Reemplazar número
     try {
       window.open(whatsappUrl, "_blank");
       setSuccess(true); // Mostrar notificación de éxito
