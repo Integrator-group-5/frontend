@@ -39,8 +39,13 @@
     /* Grid layout for responsive rows */
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     padding: 0 20px 20px;
+}
+
+.favoritesContainer {
     min-height: calc(100vh - 600px);
 }
+
+
 @media(min-width:1024px){
     .products{
         gap: 40px;

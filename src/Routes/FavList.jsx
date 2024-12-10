@@ -54,7 +54,9 @@ const FavList = ({ pageSize = 6 }) => {
             {!loading && favorites.length === 0 && (
                 <p className={styles.noFavorites}>No tienes productos favoritos.</p>
             )}
-            <CardProduct products={favorites} onToggle={() => setReload((prev) => !prev)}/>
+            <div className={styles.favoritesContainer}>
+                <CardProduct products={favorites} onToggle={() => setReload((prev) => !prev)}/>
+            </div>
 
             <div className={styles.paginationContainer}>
                 <Pagination
